@@ -12,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "blog_group")
-public class Forum {
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

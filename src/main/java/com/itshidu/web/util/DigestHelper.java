@@ -78,9 +78,9 @@ public class DigestHelper {
 		}
 		return null;
 	}
-	public static String sha1(String text){
+	public static String sha512(String text){
 		try {
-			return DigestHelper.digest(text, DigestHelper.SHA1);
+			return DigestHelper.digest(text, DigestHelper.SHA512);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

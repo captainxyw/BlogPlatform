@@ -1,6 +1,7 @@
 package com.itshidu.web.entity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Package:com.itshidu.web.entity
@@ -25,7 +26,7 @@ public class User {
     private String nickname;
     private String sign;    //个性签名
     private String avatar;  //头像
-    private String createTime;
+    private Date createTime;
     private int status;  //状态:0未激活, 1正常, 2禁止用
 
 
@@ -109,11 +110,19 @@ public class User {
         this.avatar = avatar;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
