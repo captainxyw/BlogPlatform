@@ -12,14 +12,14 @@ define(function(require, exports, module) {
     var plugins = require('plugins');
 	var Authc = require('authc');
 
-    //require('bootstrap');
+    // require('bootstrap');
 
     var wpexLocalize = {
     		"mobileMenuOpen" : "Click here to navigate",
     		"mobileMenuClosed" : "Close navigation",
     		"isOriginLeft" : "1"
     	};
-    
+
     // 图片懒加载
     var imagesLazyload = function () {
     	require.async('lazyload', function () {
@@ -29,7 +29,7 @@ define(function(require, exports, module) {
 	   	   	});
         });
     }
-    
+
     // 加载图片灯箱
     var initLightbox = function () {
     	require.async('baguetteBox', function () {
@@ -38,7 +38,7 @@ define(function(require, exports, module) {
         	});
         });
     };
-    
+
     // 返回顶部
     var backToTop = function () {
     	var $window = $(window);
@@ -49,13 +49,13 @@ define(function(require, exports, module) {
 			} else {
 				$scrollTopLink.fadeOut();
 			}
-		});		
+		});
 		$scrollTopLink.on('click', function() {
 			$( 'html, body' ).animate({scrollTop:0}, 400);
 			return false;
 		} );
     }
-    
+
 	// 瀑布流
     var masonry = function () {
     	// Masonry
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
 
 			if (parseInt(id) > 0) {
 				jQuery.getJSON(app.base +'/account/favor', {'id': id}, function (ret) {
-					
+
 					if (ret.code == 2) {
 						var favors = $('#favors').text();
 						$('#favors').text(parseInt(favors) + 1);
@@ -144,7 +144,7 @@ define(function(require, exports, module) {
 						that.text("已关注").css('border-color','green');
 					}
 					if (ret.code==3) {
-						
+
 					}
 				});
 			}
@@ -175,12 +175,12 @@ define(function(require, exports, module) {
     	imagesLazyload();
 
     	initLightbox();
-    	
+
     	backToTop();
-    	
+
     	masonry();
 
 		bindClickEvent();
     }
-    
+
 });

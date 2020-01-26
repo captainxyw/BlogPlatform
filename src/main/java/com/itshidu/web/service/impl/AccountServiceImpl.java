@@ -64,5 +64,21 @@ public class AccountServiceImpl implements AccountService {
         return DigestHelper.sha512(text);
     }
 
+    @Override
+    public Result updateProfile(String nickname, String sign) {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        User loginUser = (User) session.getAttribute("loginInfo");
+
+        User user = userDao.getOne(loginUser.getId());
+
+        user.setNickname(nickname);
+        user.setSign(sign);
+        userDao.save(user);
+
+        session.setAttribute("loginInfo", user);
+        return null;
+    }
+
 
 }

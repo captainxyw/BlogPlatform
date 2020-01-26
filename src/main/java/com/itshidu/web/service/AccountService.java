@@ -13,4 +13,6 @@ import com.itshidu.web.vo.Result;
 public interface AccountService {
 
     Result updatePassword(String oldPassword, String newPassword);
+
+    Result updateProfile(String nickname, String sign);
 }

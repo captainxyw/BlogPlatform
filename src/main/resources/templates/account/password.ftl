@@ -14,7 +14,6 @@
 <link href="/assets/vendors/pace/themes/pace-theme-minimal.css" rel="stylesheet" />
 
 <link rel='stylesheet' media='all' href='/assets/vendors/font-awesome/css/font-awesome.min.css'/>
-<link rel="stylesheet" media='all' href="/assets/vendors/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" media='all' href="/assets/vendors/animate/animate.min.css">
 <link rel='stylesheet' media='all' href='/assets/css/style.css'/>
 <link rel='stylesheet' media='all' href='/assets/css/layout.css'/>
@@ -22,6 +21,9 @@
 <link rel='stylesheet' media='all' href='/assets/css/addons.css'/>
 
 <link rel='stylesheet' media='all' href="/assets/vendors/baguette/baguetteBox.min.css"/>
+
+
+
 
 <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
 <script type="text/javascript" src="/assets/js/jquery-migrate-1.2.1.min.js"></script>
@@ -35,7 +37,14 @@
 <!-- Favicons -->
 <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
 <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
+  <script type="text/javascript" src="/assets/vendors/validate/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/assets/vendors/validate/messages_zh.min.js"></script>
 
+  <link rel="stylesheet"
+        href="/assets/vendors/bootstrap/css/bootstrap.min.css">
+<#--
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+   -->
 <script type="text/javascript">
     var _base_path = '$!{base}';
 
@@ -97,7 +106,11 @@
                 <div class="main clearfix">
                     <div class="col-xs-12 col-md-12">
 
-<script type="text/javascript" src="/assets/vendors/validate/jquery-validate.js"></script>
+<style>
+  .popover-content {
+    width: 200px;
+  }
+</style>
 
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
@@ -112,7 +125,7 @@
 
 		</div>
 		<div class="tab-pane active" id="passwd">
-			<form id="pw" action="/account/password/change" method="post" class="form-horizontal">
+			<form id="pw01" action="" method="post" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="password">当前密码</label>
 					<div class="col-lg-4">
@@ -143,26 +156,82 @@
 
 <script type="text/javascript">
 $(function () {
-	$('#pw').validate({
-		onKeyup : true,
-		onChange : true,
-		eachValidField : function() {
-			$(this).closest('div').removeClass('has-error').addClass('has-success');
-		},
-		eachInvalidField : function() {
-			$(this).closest('div').removeClass('has-success').addClass('has-error');
-		},
-		conditional : {
-			confirm : function() {
-				return $(this).val() == $('#password').val();
-			}
-		},
-		description : {
-			passwd : {
-				conditional : '<div class="alert alert-danger">两次输入的密码不一致</div>'
-			}
-		}
-	});
+  $("#pw01").validate({
+    debug:true, //只验证，不提交
+    rules : {
+      oldPassword : {
+        required : true,
+        // minlength : 3,
+		// maxlength: 18
+      },
+      password : {
+        required : true,
+        minlength : 5
+      },
+      password2 : {
+        required : true,
+        minlength : 5,
+        equalTo : "#password"
+      }
+    },
+    messages : {
+      oldPassword : {
+        required : "请输入当前密码"
+      },
+      password : {
+        required : "请输入新的密码",
+        minlength : "密码长度不能小于 5"
+      },
+      password2 : {
+        required : "请输入确认密码",
+        minlength : "密码长度不能小于 5",
+        equalTo: "两次密码输入不一致"
+      }
+    },
+    errorPlacement: function(error, element) {
+      element.popover('destroy');
+      element.popover({
+        content:error[0].innerHTML
+      });
+      element.click();
+      element.closest('div').removeClass('has-success').addClass('has-error');
+    },
+    success:function(a, b) {
+      $(b).parent().removeClass('has-error').addClass('has-success');
+      $(b).popover('destroy');
+    },
+    submitHandler:function(form){ //验证通过执行这里
+      var layer1 = layer.msg('正在修改密码...', {
+        icon: 16
+        ,shade: 0.5,
+        time:0,
+      });
+
+      $.ajax({
+        type: "POST",
+        url: "/account/password/change",
+        data: $(form).serialize(),
+        success: function(data){
+          layer.close(layer1);
+          if(data.code==100){
+            layer.msg(data.msg, function(){});
+          }
+          if(data.code==200){
+            layer.msg('密码修改成功!', {icon: 6});
+            $("#pw01").reset();
+          }
+          if(data.code==300){
+            layer.msg('旧密码不正确，修改失败!', {icon: 6});
+          }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown) {
+          layer.close(layer1);
+          layer.msg('服务器通讯错误', {icon: 5});
+        }
+      });
+
+    }
+  });
 });
 </script>
                     </div>

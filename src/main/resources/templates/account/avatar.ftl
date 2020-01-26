@@ -14,7 +14,6 @@
 <link href="/assets/vendors/pace/themes/pace-theme-minimal.css" rel="stylesheet" />
 
 <link rel='stylesheet' media='all' href='/assets/vendors/font-awesome/css/font-awesome.min.css'/>
-<link rel="stylesheet" media='all' href="/assets/vendors/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" media='all' href="/assets/vendors/animate/animate.min.css">
 <link rel='stylesheet' media='all' href='/assets/css/style.css'/>
 <link rel='stylesheet' media='all' href='/assets/css/layout.css'/>
@@ -32,9 +31,19 @@
 <script type="text/javascript" src="/assets/js/sea.js"></script>
 <script type="text/javascript" src="/assets/js/sea.config.js"></script>
 
+  <script type="text/javascript" src="/assets/vendors/validate/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/assets/vendors/validate/messages_zh.min.js"></script>
+
+  <link rel="stylesheet"
+        href="/assets/vendors/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+
+
 <!-- Favicons -->
 <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
 <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
+
+
 
 <script type="text/javascript">
     var _base_path = '$!{base}';

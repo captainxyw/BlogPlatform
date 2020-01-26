@@ -14,7 +14,6 @@
 <link href="/assets/vendors/pace/themes/pace-theme-minimal.css" rel="stylesheet" />
 
 <link rel='stylesheet' media='all' href='/assets/vendors/font-awesome/css/font-awesome.min.css'/>
-<link rel="stylesheet" media='all' href="/assets/vendors/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" media='all' href="/assets/vendors/animate/animate.min.css">
 <link rel='stylesheet' media='all' href='/assets/css/style.css'/>
 <link rel='stylesheet' media='all' href='/assets/css/layout.css'/>
@@ -36,6 +35,13 @@
 <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
 <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
 
+
+  <script type="text/javascript" src="/assets/vendors/validate/jquery.validate.min.js"></script>
+  <script type="text/javascript" src="/assets/vendors/validate/messages_zh.min.js"></script>
+
+  <link rel="stylesheet"
+        href="/assets/vendors/bootstrap/css/bootstrap.min.css">
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var _base_path = '$!{base}';
 
@@ -43,7 +49,7 @@
         base: '',
         LOGIN_TOKEN: '$!{profile.id}'
     };
-	
+
 	window.UEDITOR_HOME_URL = '/assets/vendors/ueditor/';
 </script>
 </head>
@@ -94,8 +100,14 @@
             <div class="row">
                 <div class="main clearfix">
                     <div class="col-xs-12 col-md-12">
-<script type="text/javascript" src="/assets/vendors/validate/jquery-validate.js"></script>
 
+
+
+<style>
+  .popover-content {
+    width: 200px;
+  }
+</style>
 <div class="panel panel-default stacked">
 	<div class="panel-heading">
 		<ul class="nav nav-pills account-tab">
@@ -109,17 +121,17 @@
 
 		</div>
 		<div class="tab-pane active" id="profile">
-			<form id="pf" action="profile" method="post" class="form-horizontal">
+			<form id="pf" action="/account/profile/change" method="post" class="form-horizontal">
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="nickname">昵称</label>
 					<div class="col-lg-4">
-						<input type="text" class="form-control" name="name" value="小豆丁" maxlength="7" data-required>
+						<input type="text" class="form-control" name="nickname" value="${Session.loginInfo.nickname}" maxlength="7" data-required>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="email">邮箱地址</label>
 					<div class="col-lg-4">
-						<span class="form-control">admin@mtons.com</span>
+						<span class="form-control">${Session.loginInfo.email}</span>
 					</div>
 					<div class="col-lg-3" style="padding-top: 6px;">
 							<span class="label label-success">已验证</span>
@@ -129,7 +141,7 @@
 				<div class="form-group">
 					<label class="control-label col-lg-3" for="nickname">个性签名</label>
 					<div class="col-lg-6">
-						<textarea name="signature" class="form-control" rows="3" maxlength="128"></textarea>
+						<textarea name="sign" class="form-control" rows="3" maxlength="128">${Session.loginInfo.sign?default('这个人很懒，什么也没有留下！')}</textarea>
 					</div>
 				</div>
 				<div class="form-group">
@@ -144,16 +156,69 @@
 
 <script type="text/javascript">
 $(function () {
-	$('#pf').validate({
-		onKeyup : true,
-		onChange : true,
-		eachValidField : function() {
-			$(this).closest('div').removeClass('has-error').addClass('has-success');
-		},
-		eachInvalidField : function() {
-			$(this).closest('div').removeClass('has-success').addClass('has-error');
-		}
-	});
+  $("#pf").validate({
+    debug:true, //只验证，不提交
+    rules : {
+      nickname : {
+        required : true,
+      },
+      sign : {
+        required : false,
+      }
+    },
+    messages : {
+      nickname : {
+        required : "请输入昵称"
+      }//,
+      // sign : {
+      //   required : "请输入个性签名",
+      //   minlength : "密码长度不能小于 5"
+      // }
+    },
+    errorPlacement: function(error, element) {
+      element.popover('destroy');
+      element.popover({
+        content:error[0].innerHTML
+      });
+      element.click();
+      element.closest('div').removeClass('has-success').addClass('has-error');
+    },
+    success:function(a, b) {
+      $(b).parent().removeClass('has-error').addClass('has-success');
+      $(b).popover('destroy');
+    },
+    submitHandler:function(form){ //验证通过执行这里
+      var layer1 = layer.msg('正在修个人资料...', {
+        icon: 16
+        ,shade: 0.5,
+        time:0,
+      });
+
+      $.ajax({
+        type: "POST",
+        url: "/account/profile/change",
+        data: $(form).serialize(),
+        success: function(data){
+          layer.close(layer1);
+          if(data.code==100){
+            layer.msg(data.msg, function(){});
+          }
+          if(data.code==200){
+            layer.msg('个人资料修改成功!', {icon: 6});
+            $("#pw01").reset();
+          }
+          if(data.code==300){
+            layer.msg('个人资料修改失败!', {icon: 6});
+          }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown) {
+          layer.close(layer1);
+          layer.msg('服务器通讯错误', {icon: 5});
+        }
+      });
+
+    }
+  });
 });
 </script>
                     </div>
@@ -200,6 +265,7 @@ $(function () {
 <a href="#" class="site-scroll-top"></a>
 
 <script type="text/javascript">
+  //seajs是一个模块化解决方案
     seajs.use('main', function (main) {
         main.init();
     });

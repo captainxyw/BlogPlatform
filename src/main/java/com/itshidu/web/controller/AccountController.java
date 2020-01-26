@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,11 +37,17 @@ public class AccountController {
         return mv;
     }
 
-
+    @ResponseBody
     @RequestMapping("/password/change")
     public Object changePassword(String oldPassword, String password) {
-        accountService.updatePassword(oldPassword, password);
-        return "redirect:/account/password";
+
+        return accountService.updatePassword(oldPassword, password);
+    }
+
+    @RequestMapping("/profile/change")
+    public Object changeProfile(String nickname, String sign) {
+        accountService.updateProfile(nickname, sign);
+        return "redirect:/account/profile";
     }
     
 }
