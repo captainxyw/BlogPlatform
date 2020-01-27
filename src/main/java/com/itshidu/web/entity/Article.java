@@ -26,7 +26,7 @@ public class Article {
     private String content;
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "group_id")
-    private Group group;    //所属板块
+    private Forum forum;    //所属板块
 
     public long getId() {
         return id;
@@ -76,11 +76,11 @@ public class Article {
         this.content = content;
     }
 
-    public Group getGroup() {
-        return group;
+    public Forum getForum() {
+        return forum;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setForum(Forum forum) {
+        this.forum = forum;
     }
 }

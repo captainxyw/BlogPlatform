@@ -26,19 +26,16 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
+          <!--
           <li data="home">
             <a href="/home/index.html" nav="home">我的主页</a>
           </li>
-          <li>
-            <a href="/g/blog.html" nav="博文">博文</a>
-          </li>
-          <li>
-            <a href="/g/web.html" nav="WEB">WEB</a>
-          </li>
-          <li>
-            <a href="/g/tutorial.html" nav="教程">教程</a>
-          </li>
-
+          -->
+          <#list Application.GROUP_LIST as item>
+            <li>
+              <a href="/forum/${item.code}" nav="${item.name}">${item.name}</a>
+            </li>
+          </#list>
         </ul>
         <div id="_search_box" class="search-box navbar-left hidden-xs hidden-sm">
           <form class="navbar-form" method="get" action="/search">
@@ -48,6 +45,8 @@
         </div>
 
         <ul class="nav navbar-nav navbar-right sign">
+
+          <#if Session.loginInfo?exists>
           <li class="dropdown">
             <a href="/post/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
           </li>
@@ -71,6 +70,14 @@
               <li><a href="/public/logout">退出</a></li>
             </ul>
           </li>
+              <#else>
+              <ul class="nav navbar-nav narbar-right sign">
+                <li><a href="/login.html" class="signin">登录</a></li>
+
+                <li><a href="/register.html" class="signup">注册</a></li>
+              </ul>
+          </#if>
+
         </ul>
       </div>
     </div>

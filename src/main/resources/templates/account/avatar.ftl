@@ -134,7 +134,7 @@
 				<img src="${Session.loginInfo.avatar}" id="target" alt="[Jcrop Example]" />
 			</div>
 
-			<div class="form-group">
+			<div class="form-forum">
 				<div class="text-center">
 					<button type="submit" class="btn btn-primary">提交</button>
 				</div>

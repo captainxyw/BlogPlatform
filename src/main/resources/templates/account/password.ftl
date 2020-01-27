@@ -124,25 +124,25 @@
 		</div>
 		<div class="tab-pane active" id="passwd">
 			<form id="pw01" action="" method="post" class="form-horizontal">
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="password">当前密码</label>
 					<div class="col-lg-4">
 						<input type="password" class="form-control" name="oldPassword" maxlength="18" placeholder="请输入当前密码" data-required>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="password">新密码</label>
 					<div class="col-lg-4">
 						<input type="password" class="form-control" id="password" name="password" placeholder="请输入新密码" maxlength="18" data-required>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="password2">确认密码</label>
 					<div class="col-lg-4">
 						<input type="password" class="form-control" name="password2" data-required placeholder="请再输入一遍新密码" maxlength="18" data-conditional="confirm" data-describedby="message" data-description="passwd">
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<div class="text-center">
 					<button type="submit" class="btn btn-primary">提交</button>
 					</div>

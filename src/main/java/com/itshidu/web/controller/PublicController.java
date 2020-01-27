@@ -50,6 +50,6 @@ public class PublicController {
 //        request.getSession().setMaxInactiveInterval(1);     //1s超时
         request.getSession().invalidate();
         return "redirect:/login.html";
-
     }
+
 }

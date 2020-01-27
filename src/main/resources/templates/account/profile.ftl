@@ -122,13 +122,13 @@
 		</div>
 		<div class="tab-pane active" id="profile">
 			<form id="pf" action="/account/profile/change" method="post" class="form-horizontal">
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="nickname">昵称</label>
 					<div class="col-lg-4">
 						<input type="text" class="form-control" name="nickname" value="${Session.loginInfo.nickname}" maxlength="7" data-required>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="email">邮箱地址</label>
 					<div class="col-lg-4">
 						<span class="form-control">${Session.loginInfo.email}</span>
@@ -138,13 +138,13 @@
 						<a href="/account/email">修改邮箱</a>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<label class="control-label col-lg-3" for="nickname">个性签名</label>
 					<div class="col-lg-6">
 						<textarea name="sign" class="form-control" rows="3" maxlength="128">${Session.loginInfo.sign?default('这个人很懒，什么也没有留下！')}</textarea>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-forum">
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary">提交</button>
 					</div>

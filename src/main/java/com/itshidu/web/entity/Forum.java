@@ -12,19 +12,19 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "blog_group")
-public class Group {
+public class Forum {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
-    private String code;    //版块标记
-    private boolean status;  //状态:true显示, false隐藏
+    private String code;    //版块标记,使用字符和数字，访问时候会作为url一部分
+    private Boolean status;  //状态:true显示, false隐藏
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -44,11 +44,11 @@ public class Group {
         this.code = code;
     }
 
-    public boolean isStatus() {
+    public Boolean isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 }
