@@ -117,7 +117,7 @@
 		<div id="message">
 
 		</div>
-		<form class="form-horizontal" action="avatar" method="post">
+		<form id="f_ava" class="form-horizontal" action="avatar" method="post">
 			<input type="hidden" id="x" name="x" value=""/>
 			<input type="hidden" id="y" name="y" value=""/>
 			<input type="hidden" id="width" name="width" value=""/>
@@ -131,7 +131,7 @@
 				</label>
 			</div>
 			<div class="update_ava">
-				<img src="/assets/images/ava/default.png" id="target" alt="[Jcrop Example]" />
+				<img src="${Session.loginInfo.avatar}" id="target" alt="[Jcrop Example]" />
 			</div>
 
 			<div class="form-group">

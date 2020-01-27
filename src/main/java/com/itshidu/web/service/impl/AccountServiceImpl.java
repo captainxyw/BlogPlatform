@@ -5,13 +5,19 @@ import com.itshidu.web.entity.User;
 import com.itshidu.web.service.AccountService;
 import com.itshidu.web.util.DigestHelper;
 import com.itshidu.web.vo.Result;
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -24,6 +30,9 @@ import java.util.UUID;
 
 @Service
 public class AccountServiceImpl implements AccountService {
+
+    @Value("${STORE_ROOT_PATH}")
+    String StoreRootPath;   //存储根目录
 
 
     @Autowired
@@ -78,6 +87,47 @@ public class AccountServiceImpl implements AccountService {
 
         session.setAttribute("loginInfo", user);
         return null;
+    }
+
+    @Override
+    public Result updateAvatar(int x, int y, int width, int height, String path, HttpServletRequest request) {
+
+        Date date = new Date();
+        String a = "/store/avatar/"
+            + new SimpleDateFormat("yyyy").format(date) + "/"
+            + new SimpleDateFormat("MM").format(date) + "/"
+            + new SimpleDateFormat("dd").format(date) + "/"
+            + UUID.randomUUID().toString() + ".jpg";
+
+        File local = new File(StoreRootPath, a);
+        File dir = local.getParentFile();
+        if(!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        File file = new File(StoreRootPath, path);
+
+        try {
+            Thumbnails.of(file).sourceRegion(x, y, width, height)
+                .size(width, height)
+                .outputFormat("jpg")
+                .toFile(local);
+            User loginUser = (User) request.getSession().getAttribute("loginInfo");
+            if(loginUser == null) {
+                return Result.of(1);    //1代表未登录
+            }
+            User user = userDao.getOne(loginUser.getId());
+            user.setAvatar(a);
+            userDao.save(user);
+            request.getSession().setAttribute("loginInfo", user);
+            return Result.of(2);    //2代表修改成功
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.of(3, e.toString());    //3代表异常
+        }
+
     }
 
 

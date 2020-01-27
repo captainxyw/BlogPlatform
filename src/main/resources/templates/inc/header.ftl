@@ -53,18 +53,20 @@
           </li>
           <li class="dropdown">
             <a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
-              <img class="img-circle" src="/assets/images/ava/default.png">
+              <img class="img-circle" src="${Session.loginInfo.avatar}">
             </a>
             <ul class="dropdown-menu" role="menu">
               <li>
                 <a href="/account/profile" class="ava">
                   <img class="img-circle" src="/assets/images/ava/default.png"/>
-                  <span>小豆丁</span>
+                  <span>${Session.loginInfo.nickname}</span>
                 </a>
               </li>
               <li class="divider"></li>
 
               <li><a href="/admin">后台管理</a></li>
+
+              <li class="divider"></li>
 
               <li><a href="/public/logout">退出</a></li>
             </ul>

@@ -2,10 +2,12 @@ package com.itshidu.web.controller;
 
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.AccountService;
+import com.itshidu.web.vo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,14 +25,15 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/account")
 public class AccountController {
 
+
     @Autowired
     AccountService accountService;
 
-    @RequestMapping("/{name}")
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
     public Object index(@PathVariable String name, HttpServletRequest request) {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("loginInfo");
-        if(user == null) {
+        if (user == null) {
             return "redirect:/login.html";
         }
         ModelAndView mv = new ModelAndView("account/" + name);
@@ -49,5 +52,20 @@ public class AccountController {
         accountService.updateProfile(nickname, sign);
         return "redirect:/account/profile";
     }
-    
+
+
+    @RequestMapping(value = "/avatar", method = RequestMethod.POST)
+    public Object updateAvatar(int x, int y, int width, int height, String path, HttpServletRequest request) {
+        Result r = accountService.updateAvatar(x, y, width, height, path, request);
+
+        int code = (int) r.get("code");
+        if (code == 1) {
+            return "redirect:/login.html";
+        }
+        if (code == 2) {
+            return "redirect:/account/avatar";
+        }
+        return "redirect:/500.html";
+
+    }
 }

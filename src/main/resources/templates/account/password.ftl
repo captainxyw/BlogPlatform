@@ -42,9 +42,7 @@
 
   <link rel="stylesheet"
         href="/assets/vendors/bootstrap/css/bootstrap.min.css">
-<#--
   <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-   -->
 <script type="text/javascript">
     var _base_path = '$!{base}';
 
