@@ -34,6 +34,7 @@ public class ForumController {
 
         ModelAndView mv = new ModelAndView("forum");
         mv.addObject("pageData", data);
+//        mv.addObject("servletPath", request.getServletPath());
         return mv;
     }
 }

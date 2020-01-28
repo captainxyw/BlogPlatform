@@ -34,7 +34,7 @@ public class ForumServiceImpl implements ForumService {
         } else if ("hottest".equals(sortType)) {
             sort = new Sort(Sort.Direction.DESC, "hits");
         }
-        Pageable pageable = PageRequest.of(page-1, 2, sort);
+        Pageable pageable = PageRequest.of(page-1, 7, sort);
 
         return articleDao.findByForumCode(forumCode, pageable);
     }

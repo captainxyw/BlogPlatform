@@ -31,8 +31,19 @@
             <a href="/home/index.html" nav="home">我的主页</a>
           </li>
           -->
+
+
+            <#function active code>
+                <#if Request.servletPath?contains('/forum/'+code)>
+                    <#return 'class="active"'>
+                <#else>
+                    <#return ''>
+                </#if>
+            </#function>
+
+
           <#list Application.GROUP_LIST as item>
-            <li>
+            <li ${active(item.code)}>
               <a href="/forum/${item.code}" nav="${item.name}">${item.name}</a>
             </li>
           </#list>

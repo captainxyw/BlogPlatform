@@ -38,6 +38,7 @@
   <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
   <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
 
+  <link rel="stylesheet" media='all' href="/css/pagination.css">
   <script type="text/javascript">
     var _base_path = '$!{base}';
 
@@ -65,12 +66,22 @@
         <!-- left -->
         <div class="col-xs-12 col-md-9 side-left">
 
+
+  <#function active ord>
+      <#if (RequestParameters.ord?default('') == ord)>
+          <#return 'class="active"'>
+      <#else>
+      <#return ''>
+      </#if>
+
+  </#function>
+
           <div class="shadow-box">
             <!-- tab -->
             <div class="filter">
               <ul class="">
-                <li><a  class="active"  href="?ord=newest"><i class="fa fa-newspaper-o"></i>最新的</a></li>
-                <li><a  href="?ord=hottest"><i class="fa fa-fire"></i>热门的</a></li>
+                <li><a ${active('newest')} href="?ord=newest"><i class="fa fa-newspaper-o"></i>最新的</a></li>
+                <li><a ${active('hottest')} href="?ord=hottest"><i class="fa fa-fire"></i>热门的</a></li>
                 <!--
                 <li><a href="/blogs/hottest">全部的</a></li>
                 -->
@@ -124,9 +135,26 @@
           </div>
           <div class="text-center clr">
 
-            <ul class="pagination">
+<script src="/js/jquery.pagination.js"></script>
+<script>
+  $(function() {
+    $("#pagebox").pagination({
+      current:${pageData.number + 1},
+      pageCount: ${pageData.totalPages},
+      jump: true,
+      callback: function (api) {
+        console.log(api);
+        window.location.href = "?page=" + api.getCurrent() + "&ord=${RequestParameters.ord?default('')}";
+      }
+    });
+  });
+</script>
+
+            <ul class="m-style M-box3" id="pagebox">
+<#--
 
               <li class="active"><a href="javascript:void(0);"><span>1</span></a></li>
+-->
 
             </ul>
           </div>

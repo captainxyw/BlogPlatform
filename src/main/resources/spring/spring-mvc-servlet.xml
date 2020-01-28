@@ -75,6 +75,7 @@
         <property name="exposeRequestAttributes" value="true" />
         <property name="exposeSessionAttributes" value="true" />
         <property name="exposeSpringMacroHelpers" value="true" />
+				<property name="requestContextAttribute" value="request"/>
         <property name="cache" value="true" />
         <property name="suffix" value=".ftl" />
         <property name="order" value="0"/>
