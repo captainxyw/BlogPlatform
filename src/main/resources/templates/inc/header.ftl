@@ -42,7 +42,7 @@
             </#function>
 
 
-          <#list Application.GROUP_LIST as item>
+          <#list Application.FORUM_LIST as item>
             <li ${active(item.code)}>
               <a href="/forum/${item.code}" nav="${item.name}">${item.name}</a>
             </li>
@@ -59,7 +59,7 @@
 
           <#if Session.loginInfo?exists>
           <li class="dropdown">
-            <a href="/post/new" class="publish"><i class="fa fa-magic"></i> 写文章</a>
+            <a href="/article/create" class="publish"><i class="fa fa-magic"></i> 写文章</a>
           </li>
           <li class="dropdown">
             <a href="#" class="ava dropdown-toggle" data-toggle="dropdown">

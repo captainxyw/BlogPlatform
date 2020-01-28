@@ -33,7 +33,7 @@ public class MyListener implements ServletContextListener {
 
         List<Forum> list = groupDao.findByStatus(true);
 
-        sce.getServletContext().setAttribute("GROUP_LIST", list);
+        sce.getServletContext().setAttribute("FORUM_LIST", list);
 
 
 

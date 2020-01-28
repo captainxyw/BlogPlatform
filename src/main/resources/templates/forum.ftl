@@ -95,7 +95,7 @@
               <#list pageData.content as item>
               <div class="stream-item" id="loop-10">
                 <div class="summary">
-                  <a href="/view/10.html">
+                  <a href="/view/${item.id}.html">
                     <div class="title"><h2>${item.title}</h2></div>
                     <!--<div class="excerpt wordbreak hidden-xs">$!{row.summary} </div>-->
                   </a>
