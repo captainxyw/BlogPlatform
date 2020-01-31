@@ -213,17 +213,17 @@
                 maxResults :10,
                 // callback
                 onLoadHot : function (i, data) {
-                  var url = '/view/' + data.id;
+                  var url = '/view/' + data.id+ ".html";
                   var item = jQuery.format(hot_li_template, i + 1, url, data.title, numberScale(data.views));
                   return item;
                 },
                 onLoadLatest : function (i, data) {
-                  var url = '/view/' + data.id;
+                  var url = '/view/' + data.id + ".html";
                   var item = jQuery.format(latest_li_template, i + 1, url, data.title, numberScale(data.views));
                   return item;
                 },
                 onLoadHotUser : function (i, data) {
-                  var url = '/ta/' + data.id;
+                  var url = '/ta/' + data.id+ ".html";
                   var item = jQuery.format(hotUser_li_template,data.avatar,url,data.name, data.fans);
                   return item;
                 }

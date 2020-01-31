@@ -16,7 +16,7 @@ public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "user_id")
     private User user;
     private String title;
@@ -24,7 +24,7 @@ public class Article {
     private long hits;      //点击数
     @Column(columnDefinition = "TEXT")
     private String content;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "group_id")
     private Forum forum;    //所属板块
 

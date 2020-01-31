@@ -64,7 +64,6 @@
   </welcome-file-list>
 
 
-  <!--
 
   <filter>
     <filter-name>hibernateFilter</filter-name>
@@ -80,7 +79,6 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-  -->
 
 
 </web-app>
