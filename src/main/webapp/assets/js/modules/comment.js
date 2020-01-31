@@ -161,7 +161,7 @@ define(function(require, exports, module) {
         		success: function(ret){
         			if(ret){
         				if(ret.code==0){
-        					layer.msg('请登录后再进行评论!', {icon: 2});
+        					layer.msg('请登录后再进行评论!', {icon: 5});
         					return;
         				}
         				if (ret.code >= 0) {

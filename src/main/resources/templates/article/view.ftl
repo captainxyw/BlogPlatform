@@ -33,6 +33,7 @@
   <script type="text/javascript" src="/assets/js/sea.js"></script>
   <script type="text/javascript" src="/assets/js/sea.config.js"></script>
 
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
   <!-- Favicons -->
   <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
   <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
@@ -406,23 +407,23 @@
 
   seajs.use('comment', function (comment) {
     comment.init({
-      load_url: '/comment/list/10',
+      load_url: '/comment/list/${articleInfo.id}',
       post_url: '/comment/submit',
-      toId: '10',
+      toId: '${articleInfo.id}',
       onLoad: function (i, data) {
 
         var content = ContentRender.wrapItem(data.content);
 
         var quoto = '';
-        if (data.pid > 0 && !(data.parent === null)) {
-          var pat = data.parent;
+        if (data.target) {
+          var pat = data.target;
           var pcontent = ContentRender.wrapItem(pat.content);
-          quoto = '<div class="quote"><a href="/ta/' + pat.author.id + '">@' + pat.author.name + '</a>: ' + pcontent + '</div>';
+          quoto = '<div class="quote"><a href="/ta/' + pat.author.id + '">@' + pat.author.nickname + '</a>: ' + pcontent + '</div>';
         }
         var item = jQuery.format(template,
             data.author.id,
             data.author.avatar,
-            data.author.name,
+            data.author.nickname,
             data.created,
             content,
             data.id, quoto);

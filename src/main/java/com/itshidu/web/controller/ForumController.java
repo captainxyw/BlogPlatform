@@ -37,4 +37,10 @@ public class ForumController {
 //        mv.addObject("servletPath", request.getServletPath());
         return mv;
     }
+
+    @RequestMapping("/")
+    public Object index() {
+
+        return "redirect:/forum/blog";
+    }
 }

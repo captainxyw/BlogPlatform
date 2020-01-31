@@ -9,7 +9,7 @@
   <!-- v3 -->
   <link rel="stylesheet"
         href="/assets/vendors/bootstrap/css/bootstrap.min.css">
-  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="/assets/css/login.css">
   <link rel="stylesheet" href="/assets/vendors/animate/animate.min.css">
 
@@ -27,7 +27,7 @@
   <link rel="shortcut icon"
         href="http://mtons.com/assets/images/logo/m.png"/>
   <script type="text/javascript" src="/assets/js/layer/layer.js"></script>
-
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body class="sign">
 <div class="login">
