@@ -26,7 +26,8 @@ public class APIController {
      */
     @RequestMapping("/hotusers.json")
     public Object hotusers(int maxResults) {
-        return null;
+//        5min
+        return apiService.hotusers(maxResults);
     }
 
     /**
@@ -36,6 +37,8 @@ public class APIController {
      */
     @RequestMapping("/latests.json")
     public Object latests(int maxResults) {
+        //10s
+
         return apiService.latests(maxResults);
     }
 
@@ -46,7 +49,8 @@ public class APIController {
      */
     @RequestMapping("/hots.json")
     public Object hots(int maxResults) {
-        return null;
+        //1min
+        return apiService.hots(maxResults);
     }
 
 }

@@ -214,12 +214,12 @@
                 // callback
                 onLoadHot : function (i, data) {
                   var url = '/view/' + data.id+ ".html";
-                  var item = jQuery.format(hot_li_template, i + 1, url, data.title, numberScale(data.views));
+                  var item = jQuery.format(hot_li_template, i + 1, url, data.title, data.hits);
                   return item;
                 },
                 onLoadLatest : function (i, data) {
                   var url = '/view/' + data.id + ".html";
-                  var item = jQuery.format(latest_li_template, i + 1, url, data.title, numberScale(data.views));
+                  var item = jQuery.format(latest_li_template, i + 1, url, data.title, data.hits);
                   return item;
                 },
                 onLoadHotUser : function (i, data) {
