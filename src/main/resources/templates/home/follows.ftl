@@ -29,7 +29,7 @@
 
   <script type="text/javascript" src="/assets/js/sea.js"></script>
   <script type="text/javascript" src="/assets/js/sea.config.js"></script>
-
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
   <!-- Favicons -->
   <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
   <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>

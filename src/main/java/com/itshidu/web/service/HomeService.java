@@ -13,4 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 public interface HomeService {
 
     void follows(Integer page, ModelAndView mv);
+
+    void fans(Integer page, ModelAndView mv);
 }

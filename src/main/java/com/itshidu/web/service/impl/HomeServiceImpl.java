@@ -62,4 +62,28 @@ public class HomeServiceImpl implements HomeService {
         mv.addObject("voList", list);
 
     }
+
+    @Override
+    public void fans(Integer page, ModelAndView mv) {
+        User loginUser = LoginUtil.getLoginUser();
+        Pageable pageable = PageRequest.of(page - 1, 20);
+        Page<Follows> data = followsDao.findFans(loginUser.getId(), pageable);
+
+        List<UserVO> list = new ArrayList<>();
+        for (Follows fo : data.getContent()) {
+            User user = fo.getSource(); //粉丝
+            UserVO vo = new UserVO();
+            BeanUtils.copyProperties(user, vo);
+            //该用户发表的文章数
+            int articleCount = articleDao.countByUser(user.getId());
+            int commentCount = commentDao.countByUserId(user.getId());
+
+            vo.setArticleCount(articleCount);
+            vo.setCommentCount(commentCount);
+            list.add(vo);
+        }
+
+        mv.addObject("data", data);
+        mv.addObject("voList", list);
+    }
 }
