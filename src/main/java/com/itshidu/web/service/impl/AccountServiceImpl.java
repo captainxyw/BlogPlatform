@@ -1,9 +1,11 @@
 package com.itshidu.web.service.impl;
 
 import com.itshidu.web.dao.FavorDao;
+import com.itshidu.web.dao.FollowsDao;
 import com.itshidu.web.dao.UserDao;
 import com.itshidu.web.entity.Article;
 import com.itshidu.web.entity.Favor;
+import com.itshidu.web.entity.Follows;
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.AccountService;
 import com.itshidu.web.util.DigestHelper;
@@ -12,6 +14,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -43,6 +46,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     FavorDao favorDao;
+    @Autowired
+    FollowsDao followsDao;
 
     @Override
     public Result updatePassword(String oldPassword, String newPassword) {
@@ -107,7 +112,7 @@ public class AccountServiceImpl implements AccountService {
 
         File local = new File(StoreRootPath, a);
         File dir = local.getParentFile();
-        if(!dir.exists()) {
+        if (!dir.exists()) {
             dir.mkdirs();
         }
 
@@ -119,7 +124,7 @@ public class AccountServiceImpl implements AccountService {
                 .outputFormat("jpg")
                 .toFile(local);
             User loginUser = (User) request.getSession().getAttribute("loginInfo");
-            if(loginUser == null) {
+            if (loginUser == null) {
                 return Result.of(1);    //1代表未登录
             }
             User user = userDao.getOne(loginUser.getId());
@@ -139,14 +144,14 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Result saveFavor(long articleId, HttpServletRequest request) {
         User loginUser = getLoginUser();
-        if(loginUser == null)
+        if (loginUser == null)
             return Result.of(0, "未登录");
 
         Article article = new Article();
         article.setId(articleId);
 
 
-        if(favorDao.find(loginUser.getId(), articleId) != null) {
+        if (favorDao.find(loginUser.getId(), articleId) != null) {
             return Result.of(1, "不能重复喜欢");
         }
 
@@ -157,6 +162,51 @@ public class AccountServiceImpl implements AccountService {
         favorDao.save(favor);
 
         return Result.of(2, "成功");
+    }
+
+    @Override
+    public Result saveFollow(long id) {
+        User loginUser = getLoginUser();
+        if (loginUser == null)
+            return Result.of(0, "未登录");
+
+        if(followsDao.find(loginUser.getId(), id) != null)
+            return Result.of(3, "已经关注，无需重复");
+
+        Follows follows = new Follows();
+        follows.setCreated(new Date());
+        follows.setSource(loginUser);
+        User target = new User();
+        target.setId(id);
+        follows.setTarget(target);
+        followsDao.save(follows);
+
+        return Result.of(1, "关注成功");
+    }
+
+    @Override
+    public Result followCheck(long userId) {
+        User loginUser = getLoginUser();
+        if (loginUser == null)
+            return Result.of(0, "未登录");
+
+        Follows follows = followsDao.find(loginUser.getId(), userId);
+        if (follows == null)
+            return Result.of(1, "未关注");
+        return Result.of(2, "已关注");
+    }
+
+    @Override
+    @Transactional
+    public Result unfollow(long id) {
+        User loginUser = getLoginUser();
+        if(loginUser == null)
+            return Result.of(0, "未登录");
+
+        Follows follows = followsDao.find(loginUser.getId(), id);
+        followsDao.delete(follows);
+
+        return Result.of(1, "删除成功");
     }
 
     private User getLoginUser() {

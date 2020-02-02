@@ -22,4 +22,10 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
 
     @Query("select count(*) from Comment c where c.article.id=?1")
     int countByArticleId(Long articleId);
+
+
+    @Query("select count(id) from Comment c where c.author.id=?1")
+    int countByUserId(Long authorId);
+
+
 }

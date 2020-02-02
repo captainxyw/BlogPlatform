@@ -75,4 +75,28 @@ public class AccountController {
         return accountService.saveFavor(id, request);
 
     }
+
+    //关注,要求已登录
+    @ResponseBody
+    @RequestMapping(value = "/follow", method = RequestMethod.POST)
+    public Object follow(long id, HttpServletRequest request) {
+
+        return accountService.saveFollow(id);
+    }
+
+    //检查是否关注某个人，要求已登陆
+    @ResponseBody
+    @RequestMapping(value = "/follow/check/{userId}", method = RequestMethod.POST)
+    public Object followCheck(@PathVariable long userId, HttpServletRequest request) {
+        return accountService.followCheck(userId);
+    }
+
+    //取消关注
+    @ResponseBody
+    @RequestMapping(value = "/unfollow", method = RequestMethod.GET)
+    public Object unfollow(long id, HttpServletRequest request) {
+
+        return accountService.unfollow(id);
+    }
+
 }

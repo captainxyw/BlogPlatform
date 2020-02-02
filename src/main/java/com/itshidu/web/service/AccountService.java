@@ -21,4 +21,11 @@ public interface AccountService {
     Result updateAvatar(int x, int y, int width, int height, String path, HttpServletRequest request);
 
     Result saveFavor(long articleId, HttpServletRequest request);
+
+    Result saveFollow(long id);
+    /** 检查是否关注了某个人 */
+    Result followCheck(long userId);
+
+    /** 取消关注某个人*/
+    Result unfollow(long id);
 }

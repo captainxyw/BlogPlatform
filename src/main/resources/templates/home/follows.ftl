@@ -1,16 +1,15 @@
-
-
 <!DOCTYPE html>
-<html lang="en-US">
-
+<html lang="en" class="app">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>${user.nickname?default('未设置')}</title>
+  <title>我的主页 - Mtons</title>
+  <meta name="keywords" content="mtons,mtons,博客,社区,摄影,旅游,艺术,娱乐"/>
+  <meta name="description" content="Mtons, 轻松分享你的兴趣. 便捷的文字、图片发布,扁平化的响应式设计,美观、大气,是您记录生活的最佳选择"/>
   <meta property="mtons:mblog" content="2.2.1">
 
   <script src="/assets/vendors/pace/pace.min.js"></script>
-  <link href="/assets/vendors/pace/themes/pace-theme-minimal.css" rel="stylesheet" />
+  <link href="/assets/vendors/pace/themes/pace-theme-minimal.css" rel="stylesheet"/>
 
   <link rel='stylesheet' media='all' href='/assets/vendors/font-awesome/css/font-awesome.min.css'/>
   <link rel="stylesheet" media='all' href="/assets/vendors/bootstrap/css/bootstrap.min.css">
@@ -32,9 +31,9 @@
   <script type="text/javascript" src="/assets/js/sea.config.js"></script>
 
   <!-- Favicons -->
-  <link rel="apple-touch-icon-precomposed" href="/assets/images/logo.png"/>
-  <link rel="shortcut icon" href="/assets/images/logo.png"/>
-  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
+  <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
+
   <script type="text/javascript">
     var _base_path = '$!{base}';
 
@@ -47,76 +46,56 @@
   </script>
 </head>
 <body>
+
+
 <#include "/inc/header.ftl">
-
 <!--.site-main -->
-<div class="wrap">
-  <div class="profile">
-    <div class="container">
-      <div class="avatar animated fadeInDown">
-        <img class="img-circle" src="${user.avatar?default('')}"/>
-      </div>
-      <h1>${user.nickname?default('未设置')}</h1>
-
-      <h2>${user.sign?default('未设置')}</h2>
-      <a class="btn btn-white" href="javascript:void(0);" data-id="${user.id}" rel="follow">+ 关注</a>
-    </div>
-  </div>
-
-  <nav id="profile-navigation" class="profile-navbar">
-    <div class="container">
-      <div class="content">
-        <ul class="nav navbar-nav">
-          <li class="active">
-            <a href="javascript:void(0);)">TA的文章</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
+<div class="wrap" id="wrap">
   <div class="container">
     <div class="row">
       <div class="main clearfix">
-        <div class="col-xs-12 col-md-12">
-          <div class="shadow-box mt20">
+        <!-- left -->
+        <#include "/inc/home-left.ftl">
+
+        <div class="col-xs-12 col-md-9 side-right">
+
+          <div class="shadow-box">
+            <div class="filter">
+              <ul class="">
+                <li><a class="active" href="/home/follows">我的关注</a></li>
+                <li><a href="/home/fans">我的粉丝</a></li>
+              </ul>
+            </div>
+            <!-- tab panes -->
             <div class="stream-list">
 
-              <#list data.content as item>
-              <div class="stream-item" id="loop-18">
-                <div class="blog-rank">
-                  <div class="votes #if(1 > 0) plus #end">
-                    1<small>喜欢</small>
-                  </div>
-                  <div class="views hidden-xs">
-                    0<small>评论</small>
-                  </div>
-                </div>
-                <div class="summary">
-                  <h2 class="title"><a href="/view/18">${item.title}</a></h2>
-
-                  <div class="excerpt wordbreak hidden-xs">${item.content}</div>
-
-                  <!--前端图片显示样式-->
-
-                  <div class="foot-block clearfix">
-                    <div class="author">
-                      <time>1小时前</time>
+              <#list voList as user>
+                <div class="stream-item" id="loop-${user.id}">
+                  <div class="blog-rank">
+                    <div class="user" title="${user.nickname}">
+                      <a href="/ta/${user.id}">
+                        <img class="img-circle" src="${user.avatar}"/>
+                      </a>
                     </div>
-                    <ul class="tags">
-                    </ul>
-                    <div class="pull-right hidden-xs">
-                      <span class="act">浏览 (<i>0</i>)</span>
-                      <span class="act">喜欢 (<i>1</i>)</span>
+                  </div>
+                  <div class="summary">
+                    <h2 class="title">${user.nickname}</h2>
+                    <div class="foot-block clearfix">
+                      <div class="author">
+                        <span>文章数 ${user.articleCount}</span>
+                        <span>评论数 ${user.commentCount}</span>
+                      </div>
+                      <div class="pull-right hidden-xs">
+                        <a class="btn btn-success btn-xs" href="javascript:void(0);" data-id="${user.id}" rel="unfollow"
+                           style="color: #fff;">取消关注</a>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
               </#list>
 
             </div>
           </div>
-
           <div class="text-center clr">
 
             <ul class="pagination">
@@ -125,6 +104,35 @@
 
             </ul>
           </div>
+
+          <script type="text/javascript">
+            $(function () {
+              $('a[rel=unfollow]').click(function () {
+                var id = $(this).attr('data-id');
+
+                layer.confirm('确定取消关注TA吗?', {
+                  btn: ['确定', '取消'], //按钮
+                  shade: false //不显示遮罩
+                }, function () {
+                  jQuery.getJSON('/account/unfollow', {'id': id}, function (ret) {
+                    layer.msg(ret.message, function () {
+                    });
+                    if (ret.code == 0)
+                      window.location.href = "/login.html";
+                    if (ret.code == 1) {
+                      $('#loop-' + id).fadeOut(1000, function () {
+                        $('#loop-' + id).remove();
+
+                      });
+                    }
+                  });
+
+                }, function () {
+
+                });
+              });
+            })
+          </script>
         </div>
       </div>
     </div>
@@ -140,7 +148,7 @@
         <li>
           <script>
             var _hmt = _hmt || [];
-            (function() {
+            (function () {
               var hm = document.createElement("script");
               hm.src = "//hm.baidu.com/hm.js?a029e6c6dddf427f4cbfb2b00d7d5311";
               var s = document.getElementsByTagName("script")[0];
@@ -172,5 +180,6 @@
   seajs.use('main', function (main) {
     main.init();
   });
-</script></body>
+</script>
+</body>
 </html>

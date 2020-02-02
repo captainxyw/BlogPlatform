@@ -4,26 +4,26 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
+ * 关注
  * Package:com.itshidu.web.entity
  * Description:
  *
- * @Date:2020/2/2 17:46
+ * @Date:2020/2/2 20:17
  * @Author:xuyewei
  */
 @Entity
-@Table(name = "blog_favor")
-public class Favor {
+@Table(name = "blog_follows")
+public class Follows {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "source_id")
+    private User source;  //发起关注的人
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "article_id")
-    private Article article;
+    @JoinColumn(name = "target_id")
+    private User target;    //被关注的人
     private Date created;
-
 
     public Long getId() {
         return id;
@@ -33,20 +33,20 @@ public class Favor {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public User getSource() {
+        return source;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setSource(User source) {
+        this.source = source;
     }
 
-    public Article getArticle() {
-        return article;
+    public User getTarget() {
+        return target;
     }
 
-    public void setArticle(Article article) {
-        this.article = article;
+    public void setTarget(User target) {
+        this.target = target;
     }
 
     public Date getCreated() {
