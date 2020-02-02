@@ -34,6 +34,7 @@
   <script type="text/javascript" src="/assets/js/sea.config.js"></script>
 
   <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/date.format.js"></script>
   <!-- Favicons -->
   <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
   <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
@@ -424,7 +425,7 @@
             data.author.id,
             data.author.avatar,
             data.author.nickname,
-            data.created,
+            new Date(data.created).format("yyyy-MM-dd hh:mm:ss"),
             content,
             data.id, quoto);
         return item;

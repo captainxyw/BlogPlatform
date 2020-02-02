@@ -2,6 +2,7 @@ package com.itshidu.web.service;
 
 import com.itshidu.web.entity.Article;
 import org.springframework.data.domain.Page;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Package:com.itshidu.web.service
@@ -13,5 +14,6 @@ import org.springframework.data.domain.Page;
 
 public interface ForumService {
 
-    Page<Article> findForumArticles(String forumCode, String sortType, int page);
+    void findForumArticles(String forumCode, String sortType, int page, ModelAndView mv);
+
 }

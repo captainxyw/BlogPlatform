@@ -65,6 +65,8 @@ public class Test2 {
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 Article a = new Article();
+                e2.getElementsByTag("script").remove();
+//                String text = StringEscapeUtils.escapeHtml4(e2.html());
                 a.setContent(e2.html());
                 a.setCreateTime(sdf.parse(time.text()));
                 a.setHits(Long.parseLong(replyCount));

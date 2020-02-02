@@ -18,4 +18,8 @@ public interface ArticleDao extends JpaRepository<Article, Long> {
     @Query("from Article a where  a.forum.code=?1")
     Page<Article> findByForumCode(String forumCode, Pageable pageable);
 
+
+    @Query("from Article a where  a.user.id=?1")
+    Page<Article> findByUserId(long userId, Pageable pageable);
+
 }

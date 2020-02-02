@@ -18,4 +18,8 @@ public interface CommentDao extends JpaRepository<Comment, Long> {
 
     @Query("from Comment c where c.article.id=?1")
     Page<Comment> findByArticleId(Long articleId, Pageable pageable);
+
+
+    @Query("select count(*) from Comment c where c.article.id=?1")
+    int countByArticleId(Long articleId);
 }

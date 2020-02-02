@@ -92,7 +92,7 @@
             <div class="stream-list p-stream">
 
 
-              <#list pageData.content as item>
+              <#list articleList as item>
               <div class="stream-item" id="loop-10">
                 <div class="summary">
                   <a href="/view/${item.id}.html">
@@ -111,14 +111,14 @@
                     </a>
                     <div class="info">
                       <strong> ${item.user.nickname}</strong>
-                      <time> 09月08日</time>
-                      <time> 1小时前</time>
+                      <time> ${item.createTime?string('yyyy-MM-dd')}</time>
+                      <time> ${item.createTime?string('HH:mm:ss')}</time>
                     </div>
 
                   </div>
                   <div class="counts">
                     <span class="act"><i class="praise_icon"></i>0</span>
-                    <span class="act"><i class="comment_icon"></i>0</span>
+                    <span class="act"><i class="comment_icon"></i>${item.commentCount}</span>
                   </div>
 
                   <div class="foot-block clearfix">
@@ -139,8 +139,8 @@
 <script>
   $(function() {
     $("#pagebox").pagination({
-      current:${pageData.number + 1},
-      pageCount: ${pageData.totalPages},
+      current:${pageInfo.number + 1},
+      pageCount: ${pageInfo.totalPages},
       jump: true,
       callback: function (api) {
         console.log(api);
