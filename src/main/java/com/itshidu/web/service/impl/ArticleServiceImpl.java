@@ -1,15 +1,20 @@
 package com.itshidu.web.service.impl;
 
 import com.itshidu.web.dao.ArticleDao;
+import com.itshidu.web.dao.FavorDao;
 import com.itshidu.web.dao.ForumDao;
 import com.itshidu.web.dao.UserDao;
 import com.itshidu.web.entity.Article;
 import com.itshidu.web.entity.Forum;
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.ArticleService;
+import com.itshidu.web.util.EhcacheUtil;
+import com.itshidu.web.vo.ArticleVO;
 import com.itshidu.web.vo.Result;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +36,8 @@ public class ArticleServiceImpl implements ArticleService {
     ForumDao forumDao;
     @Autowired
     ArticleDao articleDao;
+    @Autowired
+    FavorDao favorDao;
 
     @Override
     public Result save(String title, long group, String content, HttpServletRequest request) {
@@ -54,10 +61,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Result view(long articleId) {
+    public void view(long articleId, ModelAndView mv) {
         Article a = articleDao.getOne(articleId);
+        ArticleVO vo = new ArticleVO();
+        BeanUtils.copyProperties(a, vo);
 
-        return Result.of(1).put("article", a);
+        String favorKey = "articleFavor" + a.getId();
+        Integer favorCount = EhcacheUtil.get("mytest", favorKey);
+        if(favorCount == null) {
+            favorCount = favorDao.countByArticle(a.getId());
+            EhcacheUtil.put("mytest", favorKey, favorCount, 10, 10);
+        }
+        vo.setLikeCount(favorCount);
+        mv.addObject("articleInfo", vo);
     }
 
     @Override

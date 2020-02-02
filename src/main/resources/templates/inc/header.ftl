@@ -3,7 +3,8 @@
   <nav class="navbar navbar-inverse" role="navigation">
     <!--[if lt IE 9]>
       <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom:0">
-          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span
+                  class="sr-only">Close</span></button>
           <strong>您正在使用低版本浏览器，</strong> 在本页面的显示效果可能有差异。
           建议您升级到
           <a href="http://www.google.cn/intl/zh-CN/chrome/" target="_blank">Chrome</a>
@@ -11,12 +12,14 @@
           <a href="www.mozilla.org/en-US/firefox/‎" target="_blank">Firefox</a> /
           <a href="http://www.apple.com.cn/safari/" target="_blank">Safari</a> /
           <a href="http://www.opera.com/" target="_blank">Opera</a> /
-          <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Internet Explorer 9+</a>
+          <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie" target="_blank">Internet Explorer
+              9+</a>
       </div>
     <![endif]-->
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                aria-expanded="false" aria-controls="navbar">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
@@ -26,11 +29,11 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <!--
+        <#if Session.loginInfo?exists>
           <li data="home">
-            <a href="/home/index.html" nav="home">我的主页</a>
+            <a href="/home" nav="home">我的主页</a>
           </li>
-          -->
+        </#if>
 
 
             <#function active code>
@@ -58,30 +61,30 @@
         <ul class="nav navbar-nav navbar-right sign">
 
           <#if Session.loginInfo?exists>
-          <li class="dropdown">
-            <a href="/article/create" class="publish"><i class="fa fa-magic"></i> 写文章</a>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
-              <img class="img-circle" src="${Session.loginInfo.avatar}">
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li>
-                <a href="/account/profile" class="ava">
-                  <img class="img-circle" src="/assets/images/ava/default.png"/>
-                  <span>${Session.loginInfo.nickname}</span>
-                </a>
-              </li>
-              <li class="divider"></li>
+            <li class="dropdown">
+              <a href="/article/create" class="publish"><i class="fa fa-magic"></i> 写文章</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="ava dropdown-toggle" data-toggle="dropdown">
+                <img class="img-circle" src="${Session.loginInfo.avatar}">
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="/account/profile" class="ava">
+                    <img class="img-circle" src="/assets/images/ava/default.png"/>
+                    <span>${Session.loginInfo.nickname}</span>
+                  </a>
+                </li>
+                <li class="divider"></li>
 
-              <li><a href="/admin">后台管理</a></li>
+                <li><a href="/admin">后台管理</a></li>
 
-              <li class="divider"></li>
+                <li class="divider"></li>
 
-              <li><a href="/public/logout">退出</a></li>
-            </ul>
-          </li>
-              <#else>
+                <li><a href="/public/logout">退出</a></li>
+              </ul>
+            </li>
+          <#else>
               <ul class="nav navbar-nav narbar-right sign">
                 <li><a href="/login.html" class="signin">登录</a></li>
 
@@ -97,9 +100,9 @@
 
 <script type="text/javascript">
   $(function () {
-    $('a[nav]').each(function(){
+    $('a[nav]').each(function () {
       $this = $(this);
-      if($this[0].href == String(window.location)){
+      if ($this[0].href == String(window.location)) {
         $this.closest('li').addClass("active");
       }
     });

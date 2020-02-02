@@ -2,6 +2,7 @@ package com.itshidu.web.service;
 
 import com.itshidu.web.entity.Article;
 import com.itshidu.web.vo.Result;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,7 +18,7 @@ public interface ArticleService {
 
     Result save(String title, long group, String content, HttpServletRequest request);
 
-    Result view(long articleId);
+    void view(long articleId, ModelAndView modelAndView);
 
     Article getArticleById(long articleId);
 }

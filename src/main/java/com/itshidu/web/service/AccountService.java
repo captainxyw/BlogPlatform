@@ -19,4 +19,6 @@ public interface AccountService {
     Result updateProfile(String nickname, String sign);
 
     Result updateAvatar(int x, int y, int width, int height, String path, HttpServletRequest request);
+
+    Result saveFavor(long articleId, HttpServletRequest request);
 }

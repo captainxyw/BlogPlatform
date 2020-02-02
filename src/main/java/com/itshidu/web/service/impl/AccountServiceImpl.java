@@ -1,6 +1,9 @@
 package com.itshidu.web.service.impl;
 
+import com.itshidu.web.dao.FavorDao;
 import com.itshidu.web.dao.UserDao;
+import com.itshidu.web.entity.Article;
+import com.itshidu.web.entity.Favor;
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.AccountService;
 import com.itshidu.web.util.DigestHelper;
@@ -37,6 +40,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     UserDao userDao;
+
+    @Autowired
+    FavorDao favorDao;
 
     @Override
     public Result updatePassword(String oldPassword, String newPassword) {
@@ -128,6 +134,35 @@ public class AccountServiceImpl implements AccountService {
             return Result.of(3, e.toString());    //3代表异常
         }
 
+    }
+
+    @Override
+    public Result saveFavor(long articleId, HttpServletRequest request) {
+        User loginUser = getLoginUser();
+        if(loginUser == null)
+            return Result.of(0, "未登录");
+
+        Article article = new Article();
+        article.setId(articleId);
+
+
+        if(favorDao.find(loginUser.getId(), articleId) != null) {
+            return Result.of(1, "不能重复喜欢");
+        }
+
+        Favor favor = new Favor();
+        favor.setArticle(article);
+        favor.setCreated(new Date());
+        favor.setUser(loginUser);
+        favorDao.save(favor);
+
+        return Result.of(2, "成功");
+    }
+
+    private User getLoginUser() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        return (User) session.getAttribute("loginInfo");
     }
 
 }

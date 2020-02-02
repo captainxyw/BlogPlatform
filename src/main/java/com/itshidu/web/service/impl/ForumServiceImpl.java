@@ -2,6 +2,7 @@ package com.itshidu.web.service.impl;
 
 import com.itshidu.web.dao.ArticleDao;
 import com.itshidu.web.dao.CommentDao;
+import com.itshidu.web.dao.FavorDao;
 import com.itshidu.web.entity.Article;
 import com.itshidu.web.service.ForumService;
 import com.itshidu.web.util.EhcacheUtil;
@@ -32,6 +33,8 @@ public class ForumServiceImpl implements ForumService {
     ArticleDao articleDao;
     @Autowired
     CommentDao commentDao;
+    @Autowired
+    FavorDao favorDao;
 
     @Override
     public void findForumArticles(String forumCode, String sortType, int page, ModelAndView mv) {
@@ -52,22 +55,32 @@ public class ForumServiceImpl implements ForumService {
         mv.addObject("pageInfo", data);
 
         List<ArticleVO> list = new ArrayList<>();
-        //查询每个文章的评论数
+        //查询每个文章的评论数、喜欢数
         for (int i=0; i<data.getContent().size(); i++) {
             Article a = data.getContent().get(i);
-            //加缓存
-            String key = "articleComment_" + a.getId();
-            Integer count = EhcacheUtil.get("mytest", key);
-            if(count == null) {
-                count = commentDao.countByArticleId(a.getId());
-                System.out.println(count);
-                EhcacheUtil.put("mytest", key, count, 20, 20);
-            }
-
             ArticleVO articleVO = new ArticleVO();
-            articleVO.setCommentCount(count);
             BeanUtils.copyProperties(a, articleVO);
             list.add(articleVO);
+
+            //加缓存
+            String commentKey = "articleComment_" + a.getId();
+            Integer commnetCount = EhcacheUtil.get("mytest", commentKey);
+            if(commnetCount == null) {
+                commnetCount = commentDao.countByArticleId(a.getId());
+                System.out.println(commnetCount);
+                EhcacheUtil.put("mytest", commentKey, commnetCount, 10, 10);
+            }
+            articleVO.setCommentCount(commnetCount);
+
+
+            String favorKey = "articleFavor" + a.getId();
+            Integer favorCount = EhcacheUtil.get("mytest", favorKey);
+            if(favorCount == null) {
+               favorCount = favorDao.countByArticle(a.getId());
+               EhcacheUtil.put("mytest", favorKey, favorCount, 10, 10);
+            }
+            articleVO.setLikeCount(favorCount);
+
         }
 
         mv.addObject("articleList", list);

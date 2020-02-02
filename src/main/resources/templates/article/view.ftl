@@ -254,8 +254,8 @@
           </ul>
           <ul class="list-forum">
             <li class="list-forum-item">
-              <a class="btn btn-success btn-sm" href="javascript:void(0);" data-id="10" rel="favor">喜欢</a>
-              <strong id="favors">0</strong> 喜欢
+              <a class="btn btn-success btn-sm" href="javascript:void(0);" data-id="${articleInfo.id}" rel="favor">喜欢</a>
+              <strong id="favors">${articleInfo.likeCount}</strong> 喜欢
             </li>
           </ul>
           <div class="widget-box shadow-box">

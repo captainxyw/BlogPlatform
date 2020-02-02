@@ -32,7 +32,10 @@
 <script type="text/javascript" src="/assets/js/sea.js"></script>
 <script type="text/javascript" src="/assets/js/sea.config.js"></script>
 
-<!-- Favicons -->
+
+
+  <script type="text/javascript" src="/assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+  <!-- Favicons -->
 <link rel="apple-touch-icon-precomposed" href="http://mtons.com/dist/images/logo.png"/>
 <link rel="shortcut icon" href="http://mtons.com/dist/images/logo.png"/>
 
@@ -105,7 +108,7 @@
             </a>
         </div>
         <div class="user-info">
-            <div class="nk mb10">小豆丁</div>
+            <div class="nk mb10">${Session.loginInfo.nickname}</div>
             <div class="mb6">
                 <a class="btn btn-success btn-xs" href="/account/profile"><i class="fa fa-pencil"></i> 修改账户</a>
             </div>

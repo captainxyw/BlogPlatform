@@ -117,7 +117,7 @@
 
                   </div>
                   <div class="counts">
-                    <span class="act"><i class="praise_icon"></i>0</span>
+                    <span class="act"><i class="praise_icon"></i>${item.likeCount}</span>
                     <span class="act"><i class="comment_icon"></i>${item.commentCount}</span>
                   </div>
 

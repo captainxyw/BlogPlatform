@@ -54,7 +54,8 @@ public class ArticleController {
     @RequestMapping(value = "/view/{articleId}.html", method = RequestMethod.GET)
     public Object view(@PathVariable long articleId, HttpServletRequest request, ModelAndView mv) {
         mv.setViewName("article/view");
-        mv.addObject("articleInfo", articleService.getArticleById(articleId));
+        articleService.view(articleId, mv);
+//        mv.addObject("articleInfo", articleService.getArticleById(articleId));
         return mv;
     }
 

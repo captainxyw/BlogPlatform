@@ -68,4 +68,11 @@ public class AccountController {
         return "redirect:/500.html";
 
     }
+    @ResponseBody
+    @RequestMapping(value = "/favor", method = RequestMethod.GET)
+    public Object favor(long id, HttpServletRequest request) {
+
+        return accountService.saveFavor(id, request);
+
+    }
 }
