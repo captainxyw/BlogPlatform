@@ -64,4 +64,18 @@ public class HomeController {
         return mv;
     }
 
+
+    @RequestMapping(value = {"/notifies"})
+    public Object notifies(@RequestParam(defaultValue = "1") Integer page, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("loginInfo");
+        if(user == null) {
+            return "redirect:/login.html";
+        }
+
+        ModelAndView mv = new ModelAndView("home/notifies");
+        homeService.notifies(page, mv);
+        return mv;
+    }
+
 }

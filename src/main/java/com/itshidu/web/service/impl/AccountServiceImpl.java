@@ -1,12 +1,7 @@
 package com.itshidu.web.service.impl;
 
-import com.itshidu.web.dao.FavorDao;
-import com.itshidu.web.dao.FollowsDao;
-import com.itshidu.web.dao.UserDao;
-import com.itshidu.web.entity.Article;
-import com.itshidu.web.entity.Favor;
-import com.itshidu.web.entity.Follows;
-import com.itshidu.web.entity.User;
+import com.itshidu.web.dao.*;
+import com.itshidu.web.entity.*;
 import com.itshidu.web.service.AccountService;
 import com.itshidu.web.util.DigestHelper;
 import com.itshidu.web.vo.Result;
@@ -48,6 +43,10 @@ public class AccountServiceImpl implements AccountService {
     FavorDao favorDao;
     @Autowired
     FollowsDao followsDao;
+    @Autowired
+    NotifyDao notifyDao;
+    @Autowired
+    ArticleDao articleDao;
 
     @Override
     public Result updatePassword(String oldPassword, String newPassword) {
@@ -147,9 +146,7 @@ public class AccountServiceImpl implements AccountService {
         if (loginUser == null)
             return Result.of(0, "未登录");
 
-        Article article = new Article();
-        article.setId(articleId);
-
+        Article article = articleDao.getOne(articleId);
 
         if (favorDao.find(loginUser.getId(), articleId) != null) {
             return Result.of(1, "不能重复喜欢");
@@ -160,6 +157,17 @@ public class AccountServiceImpl implements AccountService {
         favor.setCreated(new Date());
         favor.setUser(loginUser);
         favorDao.save(favor);
+
+        //给文章作者发送一条通知
+        Notify notify = new Notify();
+        notify.setAvatar(loginUser.getAvatar());
+        notify.setCreated(new Date());
+        notify.setTitle(loginUser.getNickname());
+        notify.setUser(article.getUser());
+        notify.setUrl("/ta/"+loginUser.getId());
+        String str = String.format("喜欢了你的文章 - <a href=\"/view/%s.html\">%s</a>", article.getId(), article.getTitle());
+        notify.setContent(str);
+        notifyDao.save(notify);
 
         return Result.of(2, "成功");
     }
@@ -180,6 +188,17 @@ public class AccountServiceImpl implements AccountService {
         target.setId(id);
         follows.setTarget(target);
         followsDao.save(follows);
+
+        //给被关注的人发送一条通知
+        Notify notify = new Notify();
+        notify.setAvatar(loginUser.getAvatar());
+        notify.setCreated(new Date());
+        notify.setTitle(loginUser.getNickname());
+        notify.setUser(target);
+        notify.setUrl("/ta/"+loginUser.getId());
+        String str = "关注了你，你的粉丝+1";
+        notify.setContent(str);
+        notifyDao.save(notify);
 
         return Result.of(1, "关注成功");
     }

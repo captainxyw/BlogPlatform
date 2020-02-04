@@ -15,4 +15,6 @@ public interface HomeService {
     void follows(Integer page, ModelAndView mv);
 
     void fans(Integer page, ModelAndView mv);
+
+    void notifies(Integer page, ModelAndView mv);
 }

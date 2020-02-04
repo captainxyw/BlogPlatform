@@ -1,8 +1,11 @@
 package com.itshidu.web.service.impl;
 
+import com.itshidu.web.dao.ArticleDao;
 import com.itshidu.web.dao.CommentDao;
+import com.itshidu.web.dao.NotifyDao;
 import com.itshidu.web.entity.Article;
 import com.itshidu.web.entity.Comment;
+import com.itshidu.web.entity.Notify;
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.CommentService;
 import com.itshidu.web.vo.Result;
@@ -32,6 +35,12 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentDao commentDao;
 
+    @Autowired
+    NotifyDao notifyDao;
+
+    @Autowired
+    ArticleDao articleDao;
+
     @Override
     public Result save(Long articleId, Long targetCommnetId, String text) {
 
@@ -45,8 +54,7 @@ public class CommentServiceImpl implements CommentService {
 
 
         Comment c = new Comment();      //创建一个新对象
-        Article article = new Article();
-        article.setId(articleId);
+        Article article = articleDao.getOne(articleId);
         Comment target = null;
         if(targetCommnetId != 0) {
             target = new Comment();
@@ -59,6 +67,17 @@ public class CommentServiceImpl implements CommentService {
         c.setCreated(new Date());
         c.setTarget(target);
         commentDao.save(c);
+        //给文章作者发送给通知
+        article.getUser();
+        Notify notify = new Notify();
+        notify.setAvatar(user.getAvatar());
+        notify.setCreated(new Date());
+        notify.setTitle(user.getNickname());
+        notify.setUser(article.getUser());
+        notify.setUrl("/ta/"+user.getId());
+        String str = String.format("评论了你的文章 - <a href=\"/view/%s.html\">点击查看详情</a>", article.getId());
+        notify.setContent(str);
+        notifyDao.save(notify);
 
         return Result.of(1, "发表评论成功");
     }

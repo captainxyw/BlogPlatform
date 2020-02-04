@@ -3,7 +3,9 @@ package com.itshidu.web.service.impl;
 import com.itshidu.web.dao.ArticleDao;
 import com.itshidu.web.dao.CommentDao;
 import com.itshidu.web.dao.FollowsDao;
+import com.itshidu.web.dao.NotifyDao;
 import com.itshidu.web.entity.Follows;
+import com.itshidu.web.entity.Notify;
 import com.itshidu.web.entity.User;
 import com.itshidu.web.service.HomeService;
 import com.itshidu.web.util.LoginUtil;
@@ -37,6 +39,9 @@ public class HomeServiceImpl implements HomeService {
 
     @Autowired
     CommentDao commentDao;
+
+    @Autowired
+    NotifyDao notifyDao;
 
     @Override
     public void follows(Integer page, ModelAndView mv) {
@@ -85,5 +90,13 @@ public class HomeServiceImpl implements HomeService {
 
         mv.addObject("data", data);
         mv.addObject("voList", list);
+    }
+
+    @Override
+    public void notifies(Integer page, ModelAndView mv) {
+        User loginUser = LoginUtil.getLoginUser();
+        Pageable pageable = PageRequest.of(page-1, 20);
+        Page<Notify> data = notifyDao.findByUser(loginUser.getId(), pageable);
+        mv.addObject("data", data);
     }
 }
