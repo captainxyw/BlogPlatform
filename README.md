@@ -27,6 +27,7 @@
 * Ehcache
 
 ## 系统效果图
+* 登录页面，登录用户可以进行发布博文的操作
 ![alt 登录页面](https://raw.githubusercontent.com/captainxyw/BlogPlatform/master/img/login.png "登录页面")
 * 个人页面，可以查看关注的人和粉丝等
 ![alt 个人页面](https://raw.githubusercontent.com/captainxyw/BlogPlatform/master/img/profile.png "个人页面")
@@ -38,6 +39,5 @@
 ![alt 鸡汤页面](https://raw.githubusercontent.com/captainxyw/BlogPlatform/master/img/article-2.png "鸡汤页面")
 * 博文发布页面，写博文，为其添加分类和标签，进行发布
 ![alt 博文发布页面](https://raw.githubusercontent.com/captainxyw/BlogPlatform/master/img/article-release.png "博文发布页面")
-* 登录页面，登录用户可以进行发布博文的操作
 
 
